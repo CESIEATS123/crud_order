@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import Commande from '../models/order.model';
+import Order from '../models/order.model';
 
 export const create = async (req: Request, res: Response, next: NextFunction) =>{
     try{
-        const newOrder = new Commande(req.body);
+        const newOrder = new Order(req.body);
         console.log(req.body);
         console.log("Commande");
         console.log(newOrder);
@@ -21,8 +21,8 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
 export const findOne = async (req: Request, res: Response, next: NextFunction) =>{
     try{
-        const filter = {_id: req.body.id};
-        const order = await Commande.find(filter);
+        const filter = {_id: req.params.id};
+        const order = await Order.find(filter);
         res.json({
             status: "success",
             data: { ...order },
@@ -35,12 +35,13 @@ export const findOne = async (req: Request, res: Response, next: NextFunction) =
 
 export const updateOne = async (req: Request, res: Response, next: NextFunction) =>{
     try{
-        const filter = {_id: req.body.id};
-        const update = {status: req.body.status, updteAt: Date.now()}
-        const order = await Commande.findOneAndUpdate(filter, update);
+        const filter = {_id: req.params.id};
+        const update = {updateAt: Date.now()}
+        const order = await Order.findOneAndUpdate(filter, req.body);
+        const orderU = await Order.findOneAndUpdate(filter, update);
         res.json({
             status: "success",
-            data: { ...order },
+            data: { ...orderU },
             message: 'Order updated Succesfully',
         });
     } catch(error) {
@@ -52,7 +53,7 @@ export const updateStatus = async (req: Request, res: Response, next: NextFuncti
     try{
         const filter = {_id: req.params.id};
         const update = {status: req.body.status, updteAt: Date.now()}
-        const order = await Commande.findOneAndUpdate(filter, update);
+        const order = await Order.findOneAndUpdate(filter, update);
         res.json({
             status: "success",
             data: { ...order },
@@ -65,9 +66,9 @@ export const updateStatus = async (req: Request, res: Response, next: NextFuncti
 
 export const orderDelivred = async (req: Request, res: Response, next: NextFunction) =>{
     try{
-        const filter = {_id: req.body.id};
-        const update = {status: req.body.status, updteAt: Date.now(), delivredAt: Date.now()}
-        const order = await Commande.findOneAndUpdate(filter, update);
+        const filter = {_id: req.params.id};
+        const update = {status: 'delivred', updteAt: Date.now(), delivredAt: Date.now()}
+        const order = await Order.findOneAndUpdate(filter, update);
         res.json({
             status: "success",
             data: { ...order },
@@ -80,7 +81,7 @@ export const orderDelivred = async (req: Request, res: Response, next: NextFunct
 
 export const all = async (req: Request, res: Response, next: NextFunction) =>{
     try{
-        const allOrder = await Commande.find();
+        const allOrder = await Order.find();
         res.json({
             status: "success",
             data: { ...allOrder },

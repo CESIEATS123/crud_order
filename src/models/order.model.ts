@@ -26,13 +26,6 @@ const Order = mongoose.model(
             type: String,
             required: true
         },
-        address: {
-            numStreet: String,
-            street: String,
-            city: String,
-            cp: String,
-            country: String
-        },
         createdAt: {
             type: Date,
             default: Date.now(),
@@ -49,7 +42,7 @@ const Order = mongoose.model(
         },
         status: {
             type: String,
-            enum: ['recorded' , 'in progress', 'on the road', 'delivred', 'cancelled'],
+            enum: ['recorded' , 'in progress', 'ready', 'cancelled'],
             default:'recorded'
         },
     })
