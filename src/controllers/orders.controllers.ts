@@ -91,3 +91,17 @@ export const all = async (req: Request, res: Response, next: NextFunction) =>{
         next(error);
     }   
 };
+
+export const historyUser = async (req: Request, res: Response, next: NextFunction) =>{
+    try{
+        const filter = {user: req.params.user};
+        const order = await Order.find(filter);
+        res.json({
+            status: "success",
+            data: { ...order },
+            message: 'history order found Succesfully',
+        });
+    } catch(error) {
+        next(error);
+    }   
+};

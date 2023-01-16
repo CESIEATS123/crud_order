@@ -9,6 +9,6 @@ routes.route('/findOne/:id').get(controllers.findOne);
 routes.route('/updateOne/:id').patch(controllers.updateOne);
 routes.route('/updateStatus/:id').patch(controllers.updateStatus);
 routes.route('/orderDelivred/:id').patch(controllers.orderDelivred);
-
+routes.route('/historyUser/:user').get(controllers.historyUser);
 
 export default routes;
